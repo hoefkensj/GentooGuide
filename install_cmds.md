@@ -23,12 +23,21 @@ awk '/SHA512 HASH/{getline;print}' stage3-amd64-*.tar.xz.DIGESTS.asc | sha512sum
 cp -v  stage3-*.tar.xz /mnt/gentoo
 cd /mnt/gentoo
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
-#tar xvJpf stage3-amd64-*.tar.xz --xattrs-include='*.*' --numeric-owner 
-mkdir ./{Volumes,}
-mkdir -p ./etc/portage/package.{accept_keywords,license,mask,unmask,use,env}
-mkdir -p ./opt/local/scripts/{rc/bash,sh}
-mkdir -p ./opt/bin
-mkdir -p ./opt/local/bin
+#portage
+mkdir -p /mnt/gentoo/{Volumes,etc/portage/{package.{accept_keywords,license,mask,unmask,use,env},repos.conf},opt/{bin,scripts,local/{bin,scripts,config/rc/bash}}}
+chown -R root:100 ./{opt,Volumes}
+chmod -R 775 ./{opt,Volumes}
+cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+
+#scripts
+mkdir -p /mnt/Install/scripts/superadduser
+curl https://gitweb.gentoo.org/repo/gentoo.git/plain/app-admin/superadduser/files/1.15/superadduser -o  /mnt/Install/scripts/superadduser/superadduser.sh 
+mkdir -p /mnt/Install/scripts/sourcedir
+curl https://raw.githubusercontent.com/hoefkensj/SourceDir/main/sourcedir-latest.sh -o /mnt/Install/scripts/sourcedir/sourcedir-latest.sh
+mkdir -p /mnt/Install/github
+cd /mnt/Install/github
+git clone https://github.com/hoefkensj/GentooGuide/
+
 ```
 
 ### 
