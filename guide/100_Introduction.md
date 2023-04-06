@@ -1,8 +1,12 @@
-# Introduction
+## Introduction
+
+
 
 The install described in this tutorial attempts to follow the 'stock' process from the Gentoo Handbook where possible, but differs in a number of important respects. Specifically:
 
-## Goals (Someday)
+### Goals (Someday)
+
+
 
 * Root FileSystem: F2FS (fast) on a 256gb nvme partion.
 * SpaceHoggs in Home on btrfs :sata  drive  -> bindmounted in fstab

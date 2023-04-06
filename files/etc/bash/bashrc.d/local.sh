@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # ############################################################################
 # # PATH: /etc/bash/bashrc.d                      AUTHOR: Hoefkens.j@gmail.com
-# # FILE: marker.sh
+# # FILE: local.sh
 # ############################################################################
 #
-[[ -n $LOADED ]] && LOADED=() 
-[[ -z $LOADED ]] && LOADED+=("/etc/bash/bashrc.d")
+source "/etc/profile.d/local.sh"
+source "/etc/profile.d/sourcedir.sh"
+sourcedir "${LOCAL_RC}/bash"

@@ -4,13 +4,19 @@
 # # FILE: local.sh
 # ############################################################################
 #
-# LOCAL Variables : required for loading the LOCAL(this system & system wide) bash (running-)config (rc)
-_HOME='/opt/local';_CONFIG='config';_RC="rc"
-export LOCAL="${_HOME}"
-export LOCAL_CONFIG="${_HOME}/${_CONFIG}"
-export LOCAL_CONFIG_RC="${_HOME}/${_CONFIG}/${_RC}"
-export USER_CONFIG="${HOME}/.${_CONFIG}}"
-export USER_CONFIG="${HOME}/.${_CONFIG}}/${_RC}"
-# Check $PATH for /opt/bin , /opt/local/scripts/ and /opt/local/bin, if missing add, and export if needed
-[[ ":$PATH:" != *":/opt/bin:"* ]]  && export PATH="/opt/bin:${PATH}"
-[[ ":$PATH:" != *":/opt/local/bin:"* ]]  && export PATH="/opt/local/bin:${PATH}"
+export LOCAL_HOME="/opt/local"
+export LOCAL_CONFIG="${LOCAL_HOME}/config"
+export LOCAL_RC="${LOCAL_CONFIG}/rc"
+export LOCAL_BIN="${LOCAL_HOME}/bin"
+export LOCAL_CACHEDIR="${LOCAL_HOME}/cache"
+
+export USER_CONFIG="${HOME}/.config"
+export USER_RC="${USER_CONFIG}/rc"
+export USER_BIN="${HOME}/.bin"
+export USER_CACHEDIR="${HOME}/.cache"
+
+
+[[ ":${PATH}:" != *":/opt/bin:"* ]]  && export  PATH="/opt/bin}:${PATH}"
+[[ ":${PATH}:" != *":${LOCAL_BIN}:"* ]]  && export PATH="${LOCAL_BIN}:${PATH}"
+[[ ":${PATH}:" != *":${USER_BIN}:"* ]]  && export  PATH="${USER_BIN}:${PATH}"
+
