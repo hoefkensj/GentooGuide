@@ -4,5 +4,5 @@
 # # FILE: marker.sh
 # ############################################################################
 #
-[[ -n $LOADED ]] && LOADED=() 
-[[ -z $LOADED ]] && LOADED+=("/etc/bash/bashrc.d")
+[[ -z $LOADED ]] && LOADED=() 
+LOADED+=("/etc/bash/bashrc.d")
