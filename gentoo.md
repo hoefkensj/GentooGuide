@@ -32,7 +32,7 @@ ABI_X86="32 64"
 
 COMMON_FLAGS="-O2 -pipe"
 # gcc -march=native -E -v - </dev/null 2>&1 | sed  -n 's/.* -v - //p'
-COMMON_FLAGS="${COMMOM_FLAGS} -march=skylake -mmmx -mpopcnt -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -mavx -mavx2 -mno-sse4a -mno-fma4 -mno-xop -mfma -mno-avx512f -mbmi -mbmi2 -maes -mpclmul -mno-avx512vl -mno-avx512bw -mno-avx512dq -mno-avx512cd -mno-avx512er -mno-avx512pf -mno-avx512vbmi -mno-avx512ifma -mno-avx5124vnniw -mno-avx5124fmaps -mno-avx512vpopcntdq -mno-avx512vbmi2 -mno-gfni -mno-vpclmulqdq -mno-avx512vnni -mno-avx512bitalg -mno-avx512bf16 -mno-avx512vp2intersect -mno-3dnow -madx -mabm -mno-cldemote -mclflushopt -mno-clwb -mno-clzero -mcx16 -mno-enqcmd -mf16c -mfsgsbase -mfxsr -mno-hle -msahf -mno-lwp -mlzcnt -mmovbe -mno-movdir64b -mno-movdiri -mno-mwaitx -mno-pconfig -mno-pku -mno-prefetchwt1 -mprfchw -mno-ptwrite -mno-rdpid -mrdrnd -mrdseed -mno-rtm -mno-serialize -msgx -mno-sha -mno-shstk -mno-tbm -mno-tsxldtrk -mno-vaes -mno-waitpkg -mno-wbnoinvd -mxsave -mxsavec -mxsaveopt -mxsaves -mno-amx-tile -mno-amx-int8 -mno-amx-bf16 -mno-uintr -mno-hreset -mno-kl -mno-widekl -mno-avxvnni --param l1-cache-size=32 --param l1-cache-line-size=64 --param l2-cache-size=8192 -mtune=skylake"
+COMMON_FLAGS="${COMMOM_FLAGS} -march=skylake -mmmx -mpopcnt -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -mavx -mavx2 -mno-sse4a -mno-fma4 -mno-xop -mfma -mno-avx512f -mbmi -mbmi2 -maes -mpclmul -mno-avx512vl -mno-avx512bw -mno-avx512dq -mno-avx512cd -mno-avx512er -mno-avx512pf -mno-avx512vbmi -mno-avx512ifma -mno-avx5124vnniw -mno-avx5124fmaps -mno-avx512vpopcntdq -mno-avx512vbmi2 -mno-gfni -mno-vpclmulqdq -mno-avx512vnni -mno-avx512bitalg -mno-avx512bf16 -mno-avx512vp2intersect -mno-3dnow -madx -mabm -mno-cldemote -mclflushopt -mno-clwb -mno-clzero -mcx16 -mno-enqcmd -mf16c -mfsgsbase -mfxsr -mno-hle -msahf -mno-lwp -mlzcnt -mmovbe -mno-movdir64b -mno-movdiri -mno-mwaitx -mno-pconfig -mno-pku -mno-prefetchwt1 -mprfchw -mno-ptwrite -mno-rdpid -mrdrnd -mrdseed -mno-rtm -mno-serialize -msgx -mno-sha -mno-shstk -mno-tbm -mno-tsxldtrk -mno-vaes -mno-waitpkg -mno-wbnoinvd -mxsave -mxsavec -mxs aveopt -mxsaves -mno-amx-tile -mno-amx-int8 -mno-amx-bf16 -mno-uintr -mno-hreset -mno-kl -mno-widekl -mno-avxvnni --param l1-cache-size=32 --param l1-cache-line-size=64 --param l2-cache-size=8192 -mtune=skylake"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
@@ -140,13 +140,19 @@ INPUT_DRIVERS="evdev"
 # Echo messages after emerge, also save to /var/log/portage/elog
 #PORTAGE_ELOG_SYSTEM="echo save"
 
-USE="gles2 opencl tools \
+USE_BASE="acl amd64 bzip2 cli crypt dri fortran gdbm iconv ipv6 libglvnd libtirpc multilib ncurses nls nptl openmp pam pcre readline seccomp ssl systemd test-rust udev unicode xattr zlib"
+USE_DESKTOP="X a52 aac acpi alsa bluetooth branding cairo cdda cdr crypt cups dbus dts dvd dvdr encode exif flac gif gpm gtk gui iconv icu jpeg lcms libnotify mad mng mp3 mp4 mpeg ogg opengl pango pdf png policykit ppds qt5 sdl sound spell startup-notification svg tiff truetype udisks upower usb vorbis wxwidgets x264 xcb xft xml xv xvid"
+USE_PLASMA="activities declarative kde kwallet plasma qml semantic-desktop widgets xattr"
+USE_PLASMA="activities declarative kde plasma qml semantic-desktop widgets xattr"
+
+USE="tools custom-cflags network multimedia  "
+"gles2 opencl tools \
 persistenced \
 libsamplerate opencv custom-cflags grub network  \
 dri semantic-desktop \
 modplug modules \
-multimedia  aac aalib acpi ao appindicator \
-audiofile bash-completion branding cairo cdb cdda cddb cdr cgi \
+multimedia   ao \
+audiofile  branding cairo cdb cdda cddb cdr cgi \
 colord crypt css curl dbm dga dts dv dvb dvd dvdr encode exif \
 fbcon ffmpeg fftw flac fltk fontconfig fortran ftp gd gif \
 glut gnuplot gphoto2 graphviz gzip handbook imagemagick imap \
@@ -158,14 +164,37 @@ pdf php plotutils png postscript radius raw rdp rss ruby samba \
 sasl savedconfig sdl session smartcard smp sndfile snmp \
 sockets socks5 sound sox speex spell sqlite ssl \
 startup-notification suid svg symlink szip tcl tcpd theora tidy tiff timidity \
-tk truetype udev udisks upnp upnp-av upower v4l vaapi vcd \
-videos vim-syntax vnc vorbis wavpack webkit webp wmf wxwidgets \
-x265 xattr xcomposite xine xinerama xinetd xml xmp xmpp xosd \
-xpm xv xvid zeroconf zip zlib zsh-completion zstd source \
-quicktime script openexr echo-cancel extra gstreamer jack-sdk lv2 \
+tk  udev udisks  upnp-av upower v4l vaapi vcd \
+videos vim-syntax vnc vorbis  webkit webp wmf wxwidgets \
+ xattr xcomposite xine xinerama xinetd xml xmp xmpp xosd \
+xpm xv   zlib zsh-completion zstd source \
+ script openexr echo-cancel extra gstreamer jack-sdk lv2 \
  sound-server system-service v4l2 zimg \
 rubberband pulseaudio libmpv gamepad drm cplugins archive screencast \
-gbm mysql  examples nftables "
+gbm   examples "
+```
+
+```bash
+#Database
+sqlite,mysql
+#Codecs:
+a52,aac,aalib,audiofile,cdb,nvenc,libsamplerate,otf,ttf,quicktime,xvid,truetype,x265,wavpack
+#Cli
+aalib,bash-completion
+#Hardware
+acpi,ao,bluetooth,cdr,pipewire,jack,nvidia,thunderbolt,usb,jack,rtaudio,systemd,dbus,nvme,uefi,lm-sensors,hddtemp,alsa,sensors,midi,pipewire-alsa,upnp
+#Filesystem
+afs
+#Network
+apache2,atm,cddb,curl,iwd,wifi,network,nftables,,zeroconf 
+#Gui
+appindicator,cairo,colord,wayland,plasma,opengl,X,kde,vulkan,qt5
+#Development
+python,designer,cuda
+#tools
+bash-completion,crypt,git
+# Archiving
+7zip,bzip2,rar,zip 
 ```
 
 ```bash

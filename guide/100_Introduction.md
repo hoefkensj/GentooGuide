@@ -60,7 +60,7 @@ nohup , starts the process , in a way it ignores hangup signals , a hangup signa
 if you are familiar with one of those , pick one, if you arent i will be using Tmux, screen is defenetly installed on your distoro (i hope , if its not , its not that big of a program ~ couple 100kb i think), or install tmux wich is easier to use (imho)
 
 ```bash
-tmux
+tmux new -s GentooInstall 
 ```
 
 remember to always run this whenever you open a new tab , you will be greatefull that you did later on.

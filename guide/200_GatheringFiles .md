@@ -65,12 +65,16 @@ chmod -R 775 ./{opt,Volumes}
 
 ```bash
 curl https://gitweb.gentoo.org/repo/gentoo.git/plain/app-admin/superadduser/files/1.15/superadduser -o  /mnt/install/scripts/superadduser/superadduser.sh 
+install -D scripts/superadduser/* /mnt/gentoo/opt/local/scripts/
+
 ```
 
 ### sourcedir (HoefkensJ)
 
 ```bash
 curl https://raw.githubusercontent.com/hoefkensj/SourceDir/main/sourcedir-latest.sh -o /mnt/install/scripts/sourcedir/sourcedir-latest.sh
+install -D scripts/sourcedir/* /mnt/gentoo/etc/bash/bashrc.d/
+
 ```
 
 ### local system bashrc (HoefkensJ)
@@ -83,5 +87,6 @@ git -C /mnt/install/git clone https://github.com/hoefkensj/GentooGuide.git
 
 ````bash
 git -C /mnt/install/git clone https://github.com/gentoo/gentoolkit.git
+kb.set_normal_term()
 ````
 
