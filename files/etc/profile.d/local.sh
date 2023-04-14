@@ -26,9 +26,10 @@ export HISTSIZE=-1
 export FalseHISTFILESIZE="$HISTSIZE" 
 export HISTCONTROL=''
 
+PATHARR=($(tr ':' '\n' <<< "$PATH"))
+[[ ":${PATH}:" != *":/opt/bin:"* ]]  && PATHARR=("/opt/bin" "${PATH[@]}")
+[[ ":${PATH}:" != *":${LOCAL_BIN}:"* ]]  && PATHARR=("${LOCAL_BIN}" "${PATH[@]}")
+[[ ":${PATH}:" != *":${USER_BIN}:"* ]]  && PATHARR=("${USER_BIN}" "${PATH[@]}")
+export PATH=$( tr ' ' ':' <<< "${PATHARR[@]}")
 
-
-[[ ":${PATH}:" != *":/opt/bin:"* ]]  && export  PATH="/opt/bin}:${PATH}"
-[[ ":${PATH}:" != *":${LOCAL_BIN}:"* ]]  && export PATH="${LOCAL_BIN}:${PATH}"
-[[ ":${PATH}:" != *":${USER_BIN}:"* ]]  && export  PATH="${USER_BIN}:${PATH}"
-
+unset PATHARR

@@ -32,6 +32,8 @@ function sourcedir {
 	interactive shells (scp,rcp,...) can't tolerate any output.
 	sourcedir ~/.winepfx/protonGE/ '\/[0-9]{2}_.*$'  : source files starting with 2 digits + '_ ' in ~/.winepfx/protonGE/
 	";
+	set -o errexit
+	set -o nounset
     function _cat () 
     { 
         local concat;
@@ -50,18 +52,21 @@ function sourcedir {
     { 
         _cat "$WARNING" bat help
     };
-    function _m () 
-    { 
+    function _m () #ANSI_m : ansi markup
+    {   #~       ANSIESC [$1:INT] ; [$2:INT] m [$3:STRING] ANSIESCm (:resets to default)
         printf "\x1b[%s;3%sm%s\x1b[m" "$1" "$2" "$3"
     };
-    function _G () 
-    { 
+    function _G () #ANSI_G : ansi cursor to column on current line
+    { 	#~       ANSIESC [$1:INT] G
         printf "\x1b[%sG" "$1"
     };
-    function _Gm () 
-    { 
+    function _Gm () # COMBINES G (linepos) and m (markup) 
+    { 	# printf statements are not needed here as they are in the functions
+		#~printf  ANSIESC $1 G ANSIESC $2 ; $3 m $4 ANSIESC m
         _G "$1"; 
 		_m "$2" "$3" "$4" ;
+	#~	ANSIESC [$1:INT] G ANSIESC [$2:INT] ; [$3:INT] m [$4:STRING] ANSIESC m
+	#	_Gm printf "\x1b[%sG\x1b[%s;%sm%s\x1b[m" "$1" "$2" "$3" "$4"
     };
     function _mask () 
     { 
@@ -72,8 +77,8 @@ function sourcedir {
         _m 1 7 "]"
     };
     function _progress () 
-    { 
-        _Gm 12 1 3 "$1" ;
+    { #~	 G   m  m   STRING
+        _Gm  12  1  3   "$1" ;
 		_Gm "$2" 1 "$3" "$4" ;
 		_G 82
     };
@@ -113,6 +118,9 @@ function sourcedir {
         -h | --help | '')
             _help
         ;;
+		-d | --debug)
+			set -o xtrace && ${FUNCNAME[0]} "$@"
+		;;
         -q | --quiet)
             shift 1 && ${FUNCNAME[0]} "$@" &> /dev/null
         ;;
