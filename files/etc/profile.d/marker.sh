@@ -6,4 +6,4 @@
 #
 [[ -n $LOADED ]] && LOADED=() 
 LOADED+=("/etc/profile.d")
-LOADED+=("/etc/profile.d")
+

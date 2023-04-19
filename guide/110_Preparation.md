@@ -19,7 +19,7 @@ chmod 777 /mnt/mnt/{gentoo,install}
 
 ### TempFs (~ramdisk) 
 
-its a good idea to  create a tempfs in the installation folder , alets not clutter the fresh filesystem with files that will be deleted or moved later on , creating a gap at the beginning of the partition.  if you have enough free 'Memory'. we don't need much  for this , ~1GB will be enough , if you dont have 1GB free memory (spare), you can just leave the folder as a folder on the current (old) root drive (given that it has 1GB free space ofc)
+If we plan to do the installation in 1 session (=without a reboot) its a good idea to  create a tempfs in the installation folder ,however if we choose to span the installation over multiple days or weeks, and reboot the machine in the mean time the tempfs wil be cleard and a more permanent (bind mount or just a regular folder might be in order),splitting off the installaton files in a seperate folder that is not on the target volume keeps that volume clutter free and keeps the first bytes of the volume one piece instead of fragmented with files that will be deleted or moved later on , creating a gap at the beginning of the partition.  if you have enough free 'Memory'. we don't need much  for this , ~1GB will be enough , if you dont have 1GB free memory (spare), you can just leave the folder as a folder on the current (old) root drive (given that it has 1GB free space ofc)
 
 ```bash
 #the new root Volume:

@@ -134,7 +134,7 @@ ALSA_CARDS="hda-intel usb-audio emu10k1 emu10k1x emu20k1x emu20k1 intel8x0 intel
 VIDEO_CARDS="nvidia d3d12 vmware"
 INPUT_DEVICES="evdev libinput"
 INPUT_DRIVERS="evdev"
-
+mkdir -p -v /mnt/gentoo/etc/portage/repos.conf 
 # Turn on logging - see http://gentoo-en.vfose.ru/wiki/Gentoo_maintenance.
 #PORTAGE_ELOG_CLASSES="info warn error log qa"
 # Echo messages after emerge, also save to /var/log/portage/elog
@@ -176,43 +176,109 @@ gbm   examples "
 
 ```bash
 #Database
-sqlite,mysql
+sqlite,mysql,berkdb,dbi,dbm,
 #Codecs:
-a52,aac,aalib,audiofile,cdb,nvenc,libsamplerate,otf,ttf,quicktime,xvid,truetype,x265,wavpack
+a52,aac,aalib,audiofile,cdb,nvenc,libsamplerate,otf,ttf,quicktime,xvid,truetype,x265,wavpack,css
 #Cli
 aalib,bash-completion
 #Hardware
-acpi,ao,bluetooth,cdr,pipewire,jack,nvidia,thunderbolt,usb,jack,rtaudio,systemd,dbus,nvme,uefi,lm-sensors,hddtemp,alsa,sensors,midi,pipewire-alsa,upnp
+acpi,ao,bluetooth,cdr,pipewire,jack,nvidia,thunderbolt,usb,jack,rtaudio,systemd,dbus,nvme,uefi,lm-sensors,hddtemp,alsa,sensors,midi,pipewire-alsa,upnp,coreaudio
 #Filesystem
 afs
 #Network
-apache2,atm,cddb,curl,iwd,wifi,network,nftables,,zeroconf 
+apache2,atm,cddb,curl,iwd,wifi,network,nftables,,zeroconf ,adns,connman,
 #Gui
-appindicator,cairo,colord,wayland,plasma,opengl,X,kde,vulkan,qt5
+appindicator,cairo,colord,wayland,plasma,opengl,X,kde,vulkan,qt5,Xaw3d,colord,
 #Development
 python,designer,cuda
 #tools
 bash-completion,crypt,git
 # Archiving
 7zip,bzip2,rar,zip 
+# Unknown
+accessibility,acl,apparmor,audit,bidi,big-endian,bindist,blas,branding,build,calendar,caps,cdinstall,cgi,cjk,clamav,cracklib,
+crypt,cxx,dbus,debug,
 ```
 
+
+
 ```bash
-#Codecs:
-a52,aac,aalib,audiofile,cdb,nvenc,libsamplerate,otf,ttf
-#Hardware
-acpi,ao,bluetooth,cdr,pipewire,jack,nvidia,thunderbolt,usb,jack,rtaudio,systemd,dbus,nvme,uefi,lm-sensors,hddtemp,alsa,sensors,midi,pipewire-alsa
-#Filesystem
-afs
-#Network
-apache2,atm,cddb,curl,iwd,wifi,network
-#Gui
-appindicator,cairo,colord,wayland,plasma,opengl,X,kde,vulkan,qt5
-#Development
-python,designer,cuda
-#tools
-bash-completion,crypt,git
-# Archiving
-7zip,bzip2,rar
+mkdir -p -v /mnt/gentoo/etc/portage/repos.conf 
+cp -v /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf 
+nano -w /mnt/gentoo/etc/portage/repos.conf/gentoo.conf 
+```
+
+```ini
+/mnt/gentoo/etc/portage/repos.conf/gentoo.confSetting up repository information for Portage
+
+[DEFAULT]
+main-repo = gentoo
+
+[gentoo]
+location = /var/db/repos/gentoo
+sync-type = webrsync
+#sync-type = rsync
+sync-uri = rsync://rsync.gentoo.org/gentoo-portage
+sync-webrsync-verify-signature = true
+auto-sync = yes
+
+sync-rsync-verify-jobs = 1
+sync-rsync-verify-metamanifest = yes
+sync-rsync-verify-max-age = 24
+sync-openpgp-keyserver = hkps://keys.gentoo.org
+sync-openpgp-key-path = /usr/share/openpgp-keys/gentoo-release.asc
+sync-openpgp-key-refresh-retry-count = 40
+sync-openpgp-key-refresh-retry-overall-timeout = 1200
+sync-openpgp-key-refresh-retry-delay-exp-base = 2
+sync-openpgp-key-refresh-retry-delay-max = 60
+sync-openpgp-key-refresh-retry-delay-mult = 4
+
+```
+
+```
+emaint sync --auto 
+emerge --ask --verbose --oneshot portage 
+echo "Europe/Brussels" > /etc/timezone 
+emerge -v --config sys-libs/timezone-data 
+nano -w /etc/locale.gen
+locale-gen 
+eselect locale list 
+eselect locale set "C" 
+env-update && source /etc/profile && export PS1="(chroot) $PS1"
+touch /etc/portage/package.use/zzz_via_autounmask 
+emerge --ask --verbose dev-vcs/git 
+
+```
+
+
+
+```
+nano -w /etc/portage/repos.conf/sakaki-tools.conf 
+[sakaki-tools]
+
+# Various utility ebuilds for Gentoo on EFI
+# Maintainer: sakaki (sakaki@deciban.com)
+
+location = /var/db/repos/sakaki-tools
+sync-type = git
+sync-uri = https://github.com/sakaki-/sakaki-tools.git
+priority = 50
+auto-sync = yes
+
+```
+
+```
+emaint sync --repo sakaki-tools 
+echo '*/*::sakaki-tools' >> /etc/portage/package.mask/sakaki-tools-repo 
+touch /etc/portage/package.unmask/zzz_via_autounmask 
+echo "app-portage/showem::sakaki-tools" >> /etc/portage/package.unmask/showem
+
+echo "app-portage/genup::sakaki-tools" >> /etc/portage/package.unmask/genup
+echo "app-crypt/staticgpg::sakaki-tools" >> /etc/portage/package.unmask/staticgpg
+echo "app-crypt/efitools::sakaki-tools" >> /etc/portage/package.unmask/efitools
+touch /etc/portage/package.accept_keywords/zzz_via_autounmask 
+#echo "*/*::sakaki-tools ~amd64" >> /etc/portage/package.accept_keywords/sakaki-tools-repo 
+echo -e "# all versions of efitools currently marked as ~ in Gentoo tree\napp-crypt/efitools ~amd64" >> /etc/portage/package.accept_keywords/efitools 
+echo "~sys-apps/busybox-1.32.0 ~amd64" >> /etc/portage/package.accept_keywords/busybox 
 ```
 

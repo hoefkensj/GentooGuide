@@ -16,15 +16,15 @@ export USER_RC="${USER_CONFIG}/rc"
 export USER_BIN="${HOME}/.bin"
 export USER_CACHE="${HOME}/.cache"
 
-#HISTORY VARS 
-export HISTFOLDER="${LOCAL_CACHE}/bash/history"
-export HISTGLOBAL="${LOCAL_CACHE}/bash/history/history.glob"
-export HISTSESSION="${LOCAL_CACHE}/bash/history/history.session.$$"
-export HISTFILE="${USER_CACHE}/bash/history/history.$$"
-export HISTSESSIONS="${HISTFOLDER}/history.[0-9]*"
-export HISTSIZE=-1
-export FalseHISTFILESIZE="$HISTSIZE" 
-export HISTCONTROL=''
+# #HISTORY VARS 
+# export HISTFOLDER="${LOCAL_CACHE}/bash/history"
+# export HISTGLOBAL="${LOCAL_CACHE}/bash/history/history.glob"
+# export HISTSESSION="${LOCAL_CACHE}/bash/history/history.session.$$"
+# export HISTFILE="${USER_CACHE}/bash/history/history.$$"
+# export HISTSESSIONS="${HISTFOLDER}/history.[0-9]*"
+# export HISTSIZE=-1
+# export FalseHISTFILESIZE="$HISTSIZE" 
+# export HISTCONTROL=''
 
 PATHARR=($(tr ':' '\n' <<< "$PATH"))
 [[ ":${PATH}:" != *":/opt/bin:"* ]]  && PATHARR=("/opt/bin" "${PATH[@]}")

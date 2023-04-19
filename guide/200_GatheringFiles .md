@@ -12,7 +12,7 @@ export STAGE3_URL="${MIRROR}$(curl  --silent $MIRROR$LATEST | tail -n1 |awk '{pr
 
 ```bash
 mkdir -p /mnt/Install/gentoo-stage3
-cd $_
+cd 
 wget -c "${STAGE3_URL}"
 wget -c "${STAGE3_URL}.CONTENTS.gz"
 wget -c "${STAGE3_URL}.DIGESTS"
@@ -87,6 +87,15 @@ git -C /mnt/install/git clone https://github.com/hoefkensj/GentooGuide.git
 
 ````bash
 git -C /mnt/install/git clone https://github.com/gentoo/gentoolkit.git
-kb.set_normal_term()
 ````
+
+### Psgrep (3rdParty)
+
+```bash
+git -C /mnt/install/git clone https://github.com/jvz/psgrep
+```
+
+
+
+
 
