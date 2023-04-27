@@ -35,8 +35,9 @@ function merge2sys(){
 	DIRLIST=($( find "$SRCROOT"  -type d -printf '%P\n' ))
 	FILELIST=($( find "$SRCROOT"  -type f -printf '%P\n' ))
 	_install "$@"
-	_slink "$@"
+	echo '###################################################'
+	# _slink "$@"
 
 }
 merge2sys $@
-unset merge2sys
+unset merge2sy

@@ -6,4 +6,4 @@
 #
 source "/etc/profile.d/local.sh"
 source "/etc/profile.d/sourcedir.sh"
-sourcedir "${LOCAL_RC}/bash"
+bash_sourcedir "${LOCAL_RC}/bash"

@@ -11,11 +11,11 @@ mksfs.f2fs -f -l GENTOO -O extra_attr,inode_checksum,sb_checksum,flexible_inline
 ## Creating Folders
 
 ```bash
-mkdir -p /mnt/{gentoo,install}
-chmod 777 /mnt/mnt/{gentoo,install}
+install -m 777 -d /mnt/{gentoo,install/{stage3}}
+
 ```
 
-## Mounting
+## MountingAutomate the Stage3 Downloads (tarbal and verificationkeys)
 
 ### TempFs (~ramdisk) 
 
@@ -28,7 +28,7 @@ mount -t f2fs -o rw,relatime,lazytime,background_gc=on,discard,no_heap,inline_xa
 mount -o size=1G -t tmpfs tmpfs /mnt/Install
 ```
 
-### Mount-Options  Overview
+### Mount-Options  Overview# x:extract, p:preserve permissions, J:xz-compression f:file
 
 ```ini
 relatime,

@@ -1,53 +1,36 @@
 #!/bin/bash
 function fn() {
-	local HELP=" ${FUNCNAME[0]} [-h|--help] [args]
-	Arguments:
-    args            description
+	local HELP FV 
+	HELP="
+${FUNCNAME[0]} [-h|--help] [-qvd] [args]
+ARGUMENTS:
+    [arg]          description
 
-    Options:
-	-h    --help    Show this help text
+OPTIONS:
+  -h  --help     Show this help text
+  -q  --quiet    Dont produce any output
+  -v  --verbose  For compatibility only
+  -d  --debug    Enable Debugging
 
-	Examples :
+EXAMPLES :
 
-	";
+";
     set -o errexit
-	set -o nounset
-	local _cat _help
-	function _cat ()
-	{
-		local concat;
-		local LANG;
-		[[ -n $( which "$2" ) ]] && concat="$2" || concat="cat";
-		[[ -n "$3" ]] && LANG="$3" || LANG="help";
-		[[ -z $COLORTERM ]] && concat="cat";
-		[[ "$concat" == "bat" ]] && concat=$(printf '%s --plain --language="%s" ' $(which "$concat") "${LANG}");
-		$(printf "%s\n" "$1" | $concat);
+	# set -o nounset
+    function _main ()
+    {
+        echo main;
 	};
-	function _help ()
-	{
-		_cat "$HELP" bat help;
-	};
-    function _main () {
-        echo 'main';
-	};
-    local FCHECK FVERB;
+
 	case "$1" in
-		-h | --help | ' ')
-			_help
-		;;
-		-q | --quiet)
-			shift 1 && ${FUNCNAME[0]} "$@" &> /dev/null
-		;;
-		-v | --verbose)
-			shift 1 && FVERB='YES' && ${FUNCNAME[0]} "$@"
-		;;
-		-d | --debug)
-			set -o xtrace && shift 1 && ${FUNCNAME[0]}  "$@"
-		;;
-		*)
-			_main "$@"
-		;;
+		--	| -	| ''	)	sh "$LOCAL_TOOLKIT/batcat.sh" help "$HELP"	;;
+		--help 		| -h)	sh "$LOCAL_TOOLKIT/batcat.sh" help "$HELP"	;;
+		--quiet		| -q)	shift 1 && ${FUNCNAME[0]} "$@" &> /dev/null	;;
+		--verbose	| -v)	shift 1 && FV='YES' && ${FUNCNAME[0]} "$@" 		;;
+		--debug		| -d)	shift 1 && set -o xtrace &&  ${FUNCNAME[0]}  "$@" ;;
+		*)	_main "$@" ;;
 	esac;
 	unset _main
 	};
-fn $@
+
+fn "$@"

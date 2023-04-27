@@ -4,7 +4,7 @@
 # # FILE: batcat.sh
 # ############################################################################
 #
-set -o errexit
+# set -o errexit
 # set -o nounset
 function batcat ()
 {
@@ -14,7 +14,7 @@ function batcat ()
 	STRING="$@"
 	_cat=$( which "cat" )
 	_bat=$( which "bat" )
-	[[ -n "$_bat" ]] && echo $( printf '%s' "$@" ) | $( printf '%s --%s --%s=%s' "$_bat" "plain" "language" "$LANG" ) 
+	[[ -n "$_bat" ]] && printf '%s' "$@"  | $( printf '%s --%s --%s=%s' "$_bat" "plain" "language" "$LANG" ) 
 	[[ -z $_bat ]] && echo $( printf '%s' "$@" ) | $( printf '%s' "$_cat"  ) 
 };	
-batcat $@
+batcat "$@"

@@ -1,18 +1,9 @@
 ## Stage 3
 
-### Automate the Stage3 Downloads (tarbal and verificationkeys)
-
-```bash
-export MIRROR="http://mirror.yandex.ru/gentoo-distfiles/releases/amd64/autobuilds/"
-export LATEST="latest-stage3-amd64-desktop-systemd-mergedusr.txt"
-export STAGE3_URL="${MIRROR}$(curl  --silent $MIRROR$LATEST | tail -n1 |awk '{print $1}')"
-```
-
 ### Downloading the files
 
 ```bash
-mkdir -p /mnt/Install/gentoo-stage3
-cd 
+cd /mnt/install/stage3
 wget -c "${STAGE3_URL}"
 wget -c "${STAGE3_URL}.CONTENTS.gz"
 wget -c "${STAGE3_URL}.DIGESTS"
@@ -51,11 +42,11 @@ tar xpvJf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner --directory /mn
 ## Some Extra Folders
 
 ```BASH
-mkdir -p /mnt/gentoo/{Volumes,etc/portage/{package.{accept_keywords,license,mask,unmask,use,env},repos.conf},opt/{bin,scripts,local/{bin,scripts,config/rc/bash}}}
+install -m 775 -d /mnt/gentoo/{Volumes,etc/portage/{package.{accept_keywords,license,mask,unmask,use,env},repos.conf},opt/{bin,scripts,local/{bin,scripts,config/rc/bash}}}
 mkdir -p /mnt/install/{git,scripts/{superadduser,sourcedir}}
 chown -R root:100 ./{opt,Volumes}
-chmod -R 775 ./{opt,Volumes}
 
+Automate the Stage3 Downloads (tarbal and verificationkeys)
 
 ```
 
@@ -97,5 +88,4 @@ git -C /mnt/install/git clone https://github.com/jvz/psgrep
 
 
 
-
-
+	x11-misc/lndir
