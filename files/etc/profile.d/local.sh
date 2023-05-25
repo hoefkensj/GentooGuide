@@ -29,4 +29,3 @@ PATHARR=($(tr ':' '\n' <<< "$PATH"))
 export PATH=$( tr ' ' ':' <<< "${PATHARR[@]}")
 
 unset PATHARR
-[[ ":${PATH}:" != *":/opt/bin:"* ]]  && PATH=("/opt/bin:${PATH}")

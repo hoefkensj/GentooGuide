@@ -33,7 +33,7 @@ function merge2sys(){
 	SRCROOT=$( realpath "$1" )
 	DSTROOT=$( realpath "$2" )
 	DIRLIST=($( find "$SRCROOT"  -type d -printf '%P\n' ))
-	FILELIST=($( find "$SRCROOT"  -type f -printf '%P\n' ))
+	FILELIST=($( find "$SRCROOT"  -type f,l -printf '%P\n' ))
 	# _install "$@"
 	echo '###################################################'
 	_slink "$@"
